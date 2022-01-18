@@ -1276,8 +1276,8 @@ scpi_bool_t SCPI_ChoiceToName(const scpi_choice_def_t * options, int32_t tag, co
  * Definition of BOOL choice list
  */
 const scpi_choice_def_t scpi_bool_def[] = {
-    {"OFF", 0},
-    {"ON", 1},
+    {SCPI_FLASH_STR("OFF"), 0},
+    {SCPI_FLASH_STR("ON"), 1},
     SCPI_CHOICE_LIST_END /* termination of option list */
 };
 

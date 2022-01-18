@@ -154,7 +154,7 @@ struct error_reg {
 
 #define ERROR_DEFS_N 9
 
-static const struct error_reg errs[ERROR_DEFS_N] = {
+static const SCPI_FLASH_QUALIFIER struct error_reg errs[ERROR_DEFS_N] = {
     {-100, -199, ESR_CER}, /* Command error (e.g. syntax error) ch 21.8.9    */
     {-200, -299, ESR_EER}, /* Execution Error (e.g. range error) ch 21.8.10  */
     {-300, -399, ESR_DER}, /* Device specific error -300, -399 ch 21.8.11    */
@@ -213,8 +213,14 @@ void SCPI_ErrorPush(scpi_t * context, int16_t err) {
  * @return Error string representation
  */
 const char * SCPI_ErrorTranslate(int16_t err) {
+	const SCPI_FLASH_QUALIFIER char *src;
     switch (err) {
-#define X(def, val, str) case def: return str;
+#define X(def, val, str)\
+	case def: { \
+		static const SCPI_FLASH_QUALIFIER char msg_def[] = str; \
+		src = msg_def; \
+		break; \
+	}
 #if USE_FULL_ERROR_LIST
 #define XE X
 #else
@@ -227,8 +233,22 @@ const char * SCPI_ErrorTranslate(int16_t err) {
 #endif
 #undef X
 #undef XE
-        default: return "Unknown error";
+        default: {
+			static const SCPI_FLASH_QUALIFIER char msg_def[] = "Unknown error";
+			src = msg_def;
+			break;
+		}
     }
+#ifdef SCPI_DEFINE_IN_FLASH
+	static char msg[64];
+	unsigned char cnt = sizeof(msg);
+	char *ptr_msg = msg;
+	while ((cnt--) &&  (*ptr_msg++ = *src++));
+	ptr_msg[0] = 0;
+	return msg;
+#else
+	return src;
+#endif /* SCPI_DEFINE_IN_FLASH */
 }
 
 

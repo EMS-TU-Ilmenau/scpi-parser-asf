@@ -42,6 +42,15 @@
 #include <stdint.h>
 #include "scpi/config.h"
 
+#ifdef SCPI_DEFINE_IN_FLASH
+	#define SCPI_FLASH_QUALIFIER __flash
+    #define SCPI_FLASH_STR(X) ((const __flash char[]) { X } )
+#else
+    #define SCPI_FLASH_QUALIFIER
+    #define SCPI_FLASH_STR(X) (X)
+#endif
+#define SCPI_DECLARE_FLASH_CONST(KEY, VALUE) static const SCPI_FLASH_QUALIFIER char KEY[] = VALUE"ERR: %d, \"%s\""
+
 #if HAVE_STDBOOL
 #include <stdbool.h>
 #endif
@@ -112,7 +121,7 @@ extern "C" {
     };
     typedef enum _scpi_result_t scpi_result_t;
 
-    typedef struct _scpi_command_t scpi_command_t;
+    typedef const SCPI_FLASH_QUALIFIER struct _scpi_command_t scpi_command_t;
 
 #if USE_COMMAND_TAGS
 	#define SCPI_CMD_LIST_END       {NULL, NULL, 0}
@@ -293,12 +302,12 @@ extern "C" {
     typedef enum _scpi_unit_t scpi_unit_t;
 
     struct _scpi_unit_def_t {
-        const char * name;
+        const SCPI_FLASH_QUALIFIER char * name;
         scpi_unit_t unit;
         double mult;
     };
 #define SCPI_UNITS_LIST_END       {NULL, SCPI_UNIT_NONE, 0}
-    typedef struct _scpi_unit_def_t scpi_unit_def_t;
+    typedef SCPI_FLASH_QUALIFIER struct _scpi_unit_def_t scpi_unit_def_t;
 
     enum _scpi_special_number_t {
         SCPI_NUM_NUMBER,
@@ -315,11 +324,11 @@ extern "C" {
     typedef enum _scpi_special_number_t scpi_special_number_t;
 
     struct _scpi_choice_def_t {
-        const char * name;
+        const SCPI_FLASH_QUALIFIER char * name;
         int32_t tag;
     };
 #define SCPI_CHOICE_LIST_END   {NULL, -1}
-    typedef struct _scpi_choice_def_t scpi_choice_def_t;
+    typedef SCPI_FLASH_QUALIFIER struct _scpi_choice_def_t scpi_choice_def_t;
 
     struct _scpi_param_list_t {
         const scpi_command_t * cmd;
@@ -349,7 +358,7 @@ extern "C" {
     typedef scpi_token_t scpi_parameter_t;
 
     struct _scpi_command_t {
-        const char * pattern;
+        const SCPI_FLASH_QUALIFIER char * pattern;
         scpi_command_callback_t callback;
 #if USE_COMMAND_TAGS
         int32_t tag;

@@ -78,7 +78,7 @@ char * strnpbrk(const char *str, size_t size, const char *set) {
  * @return number of bytes written to str (without '\0')
  */
 size_t UInt32ToStrBaseSign(uint32_t val, char * str, size_t len, int8_t base, scpi_bool_t sign) {
-    const char digits[] = "0123456789ABCDEF";
+    static SCPI_FLASH_QUALIFIER const char digits[] = "0123456789ABCDEF";
 
 #define ADD_CHAR(c) if (pos < len) str[pos++] = (c)
     uint32_t x = 0;
@@ -164,7 +164,7 @@ size_t SCPI_UInt32ToStrBase(uint32_t val, char * str, size_t len, int8_t base) {
  * @return number of bytes written to str (without '\0')
  */
 size_t UInt64ToStrBaseSign(uint64_t val, char * str, size_t len, int8_t base, scpi_bool_t sign) {
-    const char digits[] = "0123456789ABCDEF";
+    static SCPI_FLASH_QUALIFIER const char digits[] = "0123456789ABCDEF";
 
 #define ADD_CHAR(c) if (pos < len) str[pos++] = (c)
     uint64_t x = 0;
