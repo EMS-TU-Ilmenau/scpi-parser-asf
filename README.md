@@ -1,6 +1,11 @@
 SCPI parser library v2
 ===========
 
+Fork notice
+--------
+This repository fork extends j123b567.github/scpi-parser by specific adaptations to embedded multi-platform Atmel Software Framework (ASF) projects.
+Currently, Microchip SAM and XMEGA families are supported.
+
 Documentation
 --------
 Documentation is available at [http://j123b567.github.io/scpi-parser](http://j123b567.github.io/scpi-parser).
