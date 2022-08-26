@@ -323,9 +323,12 @@ static const char * translateUnitInverse(const scpi_unit_def_t * units, const sc
     }
 
     for (i = 0; units[i].name != NULL; i++) {
-        if ((units[i].unit == unit) && (units[i].mult == 1)) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+		if ((units[i].unit == unit) && (units[i].mult == 1)) {
             return units[i].name;
         }
+#pragma GCC diagnostic pop
     }
 
     return NULL;

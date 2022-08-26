@@ -952,7 +952,10 @@ static char *scpi_ecvt(double arg, int ndigits, int *decpt, int *sign, char *buf
     frexp(arg, &r1);
     arg = modf(arg, &fi);
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
     if (fi != 0) {
+#pragma GCC diagnostic pop
         r1 = r1 * 308 / 1024 - ndigits;
         w2 = bufsize;
         while (r1 > 0) {
@@ -960,7 +963,10 @@ static char *scpi_ecvt(double arg, int ndigits, int *decpt, int *sign, char *buf
             r2++;
             r1--;
         }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
         while (fi != 0) {
+#pragma GCC diagnostic pop
             fj = modf(fi / 10, &fi);
             buf[--w2] = (int) ((fj + .03) * 10) + '0';
             r2++;
