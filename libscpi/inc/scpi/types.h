@@ -49,7 +49,7 @@
     #define SCPI_FLASH_QUALIFIER
     #define SCPI_FLASH_STR(X) (X)
 #endif
-#define SCPI_DECLARE_FLASH_CONST(KEY, VALUE) static const SCPI_FLASH_QUALIFIER char KEY[] = VALUE"ERR: %d, \"%s\""
+#define SCPI_DECLARE_FLASH_CONST(KEY, VALUE) static const SCPI_FLASH_QUALIFIER char KEY[] = VALUE
 
 #if HAVE_STDBOOL
 #include <stdbool.h>
